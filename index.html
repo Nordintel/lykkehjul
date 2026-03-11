@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lykkehjul</title>
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: white;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      align-items: center;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
     }
 
     h1 {
       margin-bottom: 20px;
     }
 
-    .wheel-wrapper {
+    .wheel-wrap {
       position: relative;
       width: 420px;
       height: 420px;
@@ -29,14 +29,14 @@
 
     .pointer {
       position: absolute;
-      top: -6px;
+      top: -2px;
       left: 50%;
       transform: translateX(-50%);
       width: 0;
       height: 0;
       border-left: 20px solid transparent;
       border-right: 20px solid transparent;
-      border-top: 38px solid red;
+      border-top: 36px solid red;
       z-index: 20;
     }
 
@@ -48,7 +48,9 @@
       border: 8px solid white;
       overflow: hidden;
       transition: transform 6s cubic-bezier(0.17, 0.67, 0.22, 1);
+      transform: rotate(0deg);
       background: conic-gradient(
+        from -90deg,
         #ff4d4d 0deg 72deg,
         #4da6ff 72deg 144deg,
         #ffd24d 144deg 216deg,
@@ -62,19 +64,21 @@
       left: 50%;
       top: 50%;
       transform-origin: 0 0;
-      width: 120px;
-      margin-left: -10px;
-      text-align: left;
       font-weight: bold;
-      font-size: 16px;
+      font-size: 18px;
       color: white;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
       white-space: nowrap;
     }
 
+    .label span {
+      display: inline-block;
+      transform: rotate(90deg);
+    }
+
     button {
       margin-top: 30px;
-      padding: 14px 26px;
+      padding: 14px 28px;
       font-size: 18px;
       font-weight: bold;
       border: none;
@@ -83,24 +87,39 @@
     }
 
     #result {
-      margin-top: 22px;
-      font-size: 26px;
+      margin-top: 20px;
+      font-size: 24px;
       font-weight: bold;
+      min-height: 30px;
     }
   </style>
 </head>
 <body>
   <h1>Lykkehjul</h1>
 
-  <div class="wheel-wrapper">
+  <div class="wheel-wrap">
     <div class="pointer"></div>
 
     <div class="wheel" id="wheel">
-      <div class="label" style="transform: rotate(36deg) translate(70px, -8px);">Mac</div>
-      <div class="label" style="transform: rotate(108deg) translate(70px, -8px);">iPhone 17</div>
-      <div class="label" style="transform: rotate(180deg) translate(70px, -8px);">iPhone AIR</div>
-      <div class="label" style="transform: rotate(252deg) translate(70px, -8px);">PlayStation 5</div>
-      <div class="label" style="transform: rotate(324deg) translate(70px, -8px);">BEAN BOOZLED</div>
+      <div class="label" style="transform: rotate(36deg) translate(95px, -12px);">
+        <span>Mac</span>
+      </div>
+
+      <div class="label" style="transform: rotate(108deg) translate(95px, -12px);">
+        <span>iPhone 17</span>
+      </div>
+
+      <div class="label" style="transform: rotate(180deg) translate(95px, -12px);">
+        <span>iPhone AIR</span>
+      </div>
+
+      <div class="label" style="transform: rotate(252deg) translate(95px, -12px);">
+        <span>PlayStation 5</span>
+      </div>
+
+      <div class="label" style="transform: rotate(324deg) translate(95px, -12px);">
+        <span>BEAN BOOZLED</span>
+      </div>
     </div>
   </div>
 
@@ -110,6 +129,7 @@
   <script>
     const wheel = document.getElementById("wheel");
     const result = document.getElementById("result");
+
     let currentRotation = 0;
 
     function spinWheel() {
@@ -117,19 +137,23 @@
 
       const spins = 6 * 360;
 
-      // Midten av BEAN BOOZLED-feltet er 324 grader
-      // Pilen står fast på toppen ved 270 grader i conic-gradient-systemet
-      // Derfor må vi rotere så 324 havner på 270
-      const beanCenter = 324;
-      const pointerAngle = 270;
+      /* 
+        Med "from -90deg" starter første felt på toppen.
+        Feltene blir:
+        Mac: 0-72
+        iPhone 17: 72-144
+        iPhone AIR: 144-216
+        PlayStation 5: 216-288
+        BEAN BOOZLED: 288-360
 
-      let stopRotation = pointerAngle - beanCenter;
-      if (stopRotation < 0) {
-        stopRotation += 360;
-      }
+        Midten av BEAN BOOZLED er 324 grader.
+        Pilen peker på toppen, altså 0 grader.
+        For å få 324 opp til toppen må hjulet roteres 36 grader med klokka.
+      */
 
-      currentRotation += spins + stopRotation;
+      const beanBoozledStop = 36;
 
+      currentRotation += spins + beanBoozledStop;
       wheel.style.transform = `rotate(${currentRotation}deg)`;
 
       setTimeout(() => {
