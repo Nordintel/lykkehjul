@@ -38,7 +38,9 @@ width:420px;
 height:420px;
 border-radius:50%;
 border:8px solid white;
+position:relative;
 transition: transform 6s cubic-bezier(.15,.85,.25,1);
+
 background: conic-gradient(
 #ff4d4d 0deg 72deg,
 #4da6ff 72deg 144deg,
@@ -46,6 +48,15 @@ background: conic-gradient(
 #66e066 216deg 288deg,
 #c266ff 288deg 360deg
 );
+}
+
+.label{
+position:absolute;
+left:50%;
+top:50%;
+transform-origin:0 0;
+font-weight:bold;
+font-size:16px;
 }
 
 button{
@@ -56,23 +67,6 @@ border:none;
 border-radius:10px;
 cursor:pointer;
 font-weight:bold;
-}
-
-.labels{
-position:absolute;
-width:420px;
-height:420px;
-top:0;
-left:0;
-pointer-events:none;
-font-weight:bold;
-}
-
-.label{
-position:absolute;
-left:50%;
-top:50%;
-transform-origin:0 0;
 }
 
 </style>
@@ -86,15 +80,13 @@ transform-origin:0 0;
 
 <div class="pointer"></div>
 
-<div id="wheel"></div>
+<div id="wheel">
 
-<div class="labels">
-
-<div class="label" style="transform:rotate(36deg) translate(110px,-10px)">Mac</div>
-<div class="label" style="transform:rotate(108deg) translate(110px,-10px)">iPhone 17</div>
-<div class="label" style="transform:rotate(180deg) translate(110px,-10px)">iPhone AIR</div>
-<div class="label" style="transform:rotate(252deg) translate(110px,-10px)">PlayStation 5</div>
-<div class="label" style="transform:rotate(324deg) translate(110px,-10px)">BEAN BOOZLED</div>
+<div class="label" style="transform:rotate(36deg) translate(120px,-10px)">Mac</div>
+<div class="label" style="transform:rotate(108deg) translate(120px,-10px)">iPhone 17</div>
+<div class="label" style="transform:rotate(180deg) translate(120px,-10px)">iPhone AIR</div>
+<div class="label" style="transform:rotate(252deg) translate(120px,-10px)">PlayStation 5</div>
+<div class="label" style="transform:rotate(324deg) translate(120px,-10px)">BEAN BOOZLED</div>
 
 </div>
 
@@ -117,10 +109,8 @@ result.innerText=""
 
 let spins = 7 * 360
 
-/* midten av BEAN BOOZLED feltet */
 let beanCenter = 324
 
-/* pilen er på toppen (0°) så vi roterer motsatt */
 let stopAngle = spins + (360 - beanCenter)
 
 currentRotation += stopAngle
@@ -128,7 +118,7 @@ currentRotation += stopAngle
 wheel.style.transform = "rotate(" + currentRotation + "deg)"
 
 setTimeout(function(){
-result.innerText = "Resultat: BEAN BOOZLED"
+result.innerText="Resultat: BEAN BOOZLED"
 },6000)
 
 }
