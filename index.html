@@ -1,1 +1,139 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lykkehjul</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #111, #222);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
 
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .wheel-container {
+      position: relative;
+      width: 350px;
+      height: 350px;
+    }
+
+    .pointer {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-top: 30px solid red;
+      z-index: 10;
+    }
+
+    .wheel {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 8px solid white;
+      position: relative;
+      overflow: hidden;
+      transition: transform 5s ease-out;
+      background: conic-gradient(
+        #ff4d4d 0deg 72deg,
+        #4da6ff 72deg 144deg,
+        #ffd24d 144deg 216deg,
+        #66e066 216deg 288deg,
+        #c266ff 288deg 360deg
+      );
+    }
+
+    .label {
+      position: absolute;
+      width: 50%;
+      left: 50%;
+      top: 50%;
+      transform-origin: 0% 0%;
+      font-weight: bold;
+      font-size: 16px;
+      text-shadow: 1px 1px 3px black;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #ffcc00;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #ffdb4d;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Lykkehjul</h1>
+
+  <div class="wheel-container">
+    <div class="pointer"></div>
+    <div class="wheel" id="wheel">
+      <div class="label" style="transform: rotate(36deg) translate(20px, -10px);">Mac</div>
+      <div class="label" style="transform: rotate(108deg) translate(20px, -10px);">iPhone 17</div>
+      <div class="label" style="transform: rotate(180deg) translate(20px, -10px);">iPhone AIR</div>
+      <div class="label" style="transform: rotate(252deg) translate(20px, -10px);">PlayStation 5</div>
+      <div class="label" style="transform: rotate(324deg) translate(20px, -10px);">BEAN BOOZLED</div>
+    </div>
+  </div>
+
+  <button onclick="spinWheel()">Spinn</button>
+  <div id="result"></div>
+
+  <script>
+    const wheel = document.getElementById("wheel");
+    const result = document.getElementById("result");
+    let currentRotation = 0;
+
+    function spinWheel() {
+      result.textContent = "";
+
+      // Hjulet har 5 felt = 72 grader per felt
+      // Vi vil alltid lande på BEAN BOOZLED
+      // Denne ligger i siste feltet: 288deg til 360deg
+      // Vi sikter på midten av feltet, ca 324 grader
+      const targetAngle = 324;
+
+      // Pekeren er på toppen, så vi må regne om rotasjonen
+      const spins = 5 * 360;
+      const finalRotation = spins + (360 - targetAngle);
+
+      currentRotation += finalRotation;
+
+      wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+      setTimeout(() => {
+        result.textContent = "Resultat: BEAN BOOZLED";
+      }, 5200);
+    }
+  </script>
+</body>
+</html>
